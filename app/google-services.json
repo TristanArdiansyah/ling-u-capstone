@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "234486862438",
+    "project_id": "linguapp-bbe0b",
+    "storage_bucket": "linguapp-bbe0b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234486862438:android:c5263561bb27e7cdf653a7",
+        "android_client_info": {
+          "package_name": "com.bangkit.capstone.lingu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "234486862438-cksl0htvili906vh13ku3d31mvl52f2f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bangkit.capstone.lingu",
+            "certificate_hash": "5027e037009923d707f73e6045372f2b96fd0b69"
+          }
+        },
+        {
+          "client_id": "234486862438-8llu77t4a67e47otd20pad2gjhubkfou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBM1IZxSdmWIWKAp9Zip1nWVNzUhsOcr6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "234486862438-8llu77t4a67e47otd20pad2gjhubkfou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
