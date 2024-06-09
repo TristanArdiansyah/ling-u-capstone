@@ -5,10 +5,16 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +24,8 @@ import com.bangkit.capstone.lingu.data.pref.UserModel
 import com.bangkit.capstone.lingu.databinding.ActivityLoginBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.main.MainActivity
+import com.bangkit.capstone.lingu.view.signup.SignupActivity
+import com.bangkit.capstone.lingu.view.welcome.WelcomeActivity
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
@@ -26,7 +34,6 @@ import androidx.credentials.GetCredentialResponse
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModelProvider
 import com.bangkit.capstone.lingu.view.main.MainViewModel
-import com.bangkit.capstone.lingu.view.welcome.WelcomeActivity
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
@@ -48,9 +55,13 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
+        binding.signInButton.visibility = View.GONE
+        binding.frameLayout.visibility = View.GONE
+
         setupView()
         setupAction()
         playAnimation()
+        setupSignupLink()
     }
 
     private fun setupView() {
@@ -148,13 +159,12 @@ class LoginActivity : AppCompatActivity() {
                         updateUI(user)
                     } else {
                         Log.w(TAG, "signInWithCredential:failure", task.exception)
-                        Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Authentication failed: ${task.exception?.message}" , Toast.LENGTH_SHORT).show()
                         updateUI(null)
                     }
                 }
             }
     }
-
 
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
@@ -190,6 +200,31 @@ class LoginActivity : AppCompatActivity() {
             )
             startDelay = 100
         }.start()
+
+        Handler().postDelayed({
+            binding.signInButton.visibility = View.VISIBLE
+            binding.frameLayout.visibility = View.VISIBLE
+        }, 700) // Delay in milliseconds
+    }
+
+    private fun setupSignupLink() {
+        val textView = findViewById<TextView>(R.id.toLoginPage)
+        val didNotHaveAccountText = getString(R.string.did_not_have_account)
+
+        val spannableString = SpannableString(didNotHaveAccountText)
+        val start = didNotHaveAccountText.indexOf("Daftar")
+        val end = start + "Daftar".length
+
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(this@LoginActivity, SignupActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        spannableString.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = spannableString
+        textView.movementMethod = LinkMovementMethod.getInstance()
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
@@ -203,7 +238,6 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
     }
-
 
     companion object {
         private const val TAG = "LoginActivity"

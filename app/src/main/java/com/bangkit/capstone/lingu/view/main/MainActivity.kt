@@ -16,6 +16,7 @@ import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
+import com.bangkit.capstone.lingu.view.canvas.CanvasActivity
 import com.bangkit.capstone.lingu.view.login.LoginActivity
 import com.bangkit.capstone.lingu.view.welcome.WelcomeActivity
 import com.google.firebase.Firebase
@@ -39,21 +40,23 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
+
             }
+
+            auth = Firebase.auth
+            val firebaseUser = auth.currentUser
+            if (firebaseUser == null) {
+                // Not signed in, launch the Login activity
+                startActivity(Intent(this, WelcomeActivity::class.java))
+                finish()
+            }
+
         }
 
         setupView()
         setupAction()
         playAnimation()
 
-        auth = Firebase.auth
-        val firebaseUser = auth.currentUser
-        if (firebaseUser == null) {
-            // Not signed in, launch the Login activity
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            return
-        }
     }
 
     private fun setupView() {
@@ -71,7 +74,20 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.logoutButton.setOnClickListener {
+            lifecycleScope.launch {
+                val credentialManager = CredentialManager.create(this@MainActivity)
+                auth.signOut()
+                credentialManager.clearCredentialState(ClearCredentialStateRequest())
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
+            }
             viewModel.logout()
+        }
+
+        binding.tesCanvas.setOnClickListener {
+            val intent = Intent(this, CanvasActivity::class.java)
+            startActivity(intent)
+
         }
     }
 

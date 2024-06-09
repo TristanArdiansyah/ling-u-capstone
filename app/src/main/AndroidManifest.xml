@@ -23,6 +23,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".view.canvas.CanvasActivity"
+            android:exported="false"/>
+
+
+        <activity
             android:name=".view.main.MainActivity"
             android:exported="true">
 
