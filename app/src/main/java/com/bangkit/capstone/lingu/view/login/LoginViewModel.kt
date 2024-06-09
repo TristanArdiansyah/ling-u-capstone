@@ -12,4 +12,5 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
             repository.saveSession(user)
         }
     }
+
 }

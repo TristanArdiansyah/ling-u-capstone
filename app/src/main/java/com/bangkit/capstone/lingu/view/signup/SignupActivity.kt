@@ -2,14 +2,22 @@ package com.bangkit.capstone.lingu.view.signup
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.bangkit.capstone.lingu.R
 import com.bangkit.capstone.lingu.databinding.ActivitySignupBinding
+import com.bangkit.capstone.lingu.view.login.LoginActivity
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
@@ -22,6 +30,7 @@ class SignupActivity : AppCompatActivity() {
         setupView()
         setupAction()
         playAnimation()
+        setupLoginLink()
     }
 
     private fun setupView() {
@@ -77,7 +86,6 @@ class SignupActivity : AppCompatActivity() {
         val message =
             ObjectAnimator.ofFloat(binding.toLoginPage, View.ALPHA, 1f).setDuration(100)
 
-
         AnimatorSet().apply {
             playSequentially(
                 title,
@@ -92,5 +100,25 @@ class SignupActivity : AppCompatActivity() {
             )
             startDelay = 100
         }.start()
+    }
+
+    private fun setupLoginLink() {
+        val textView = findViewById<TextView>(R.id.toLoginPage)
+        val alreadyHaveAccountText = getString(R.string.already_have_account)
+
+        val spannableString = SpannableString(alreadyHaveAccountText)
+        val start = alreadyHaveAccountText.indexOf("Masuk")
+        val end = start + "Masuk".length
+
+        val clickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(this@SignupActivity, LoginActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
+        spannableString.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = spannableString
+        textView.movementMethod = LinkMovementMethod.getInstance() // This makes the link clickable
     }
 }
