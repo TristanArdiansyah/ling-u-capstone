@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "234486862438-7ltff1lfnkkiia85nnufga22hp03ti6p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bangkit.capstone.lingu",
+            "certificate_hash": "5677ebfd01b14b90b27f9cbc9a83c6f24436188e"
+          }
+        },
+        {
           "client_id": "234486862438-cksl0htvili906vh13ku3d31mvl52f2f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
