@@ -56,6 +56,24 @@ class AllCourseActivity : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@AllCourseActivity)
             adapter = courseAdapter
         }
+
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener { textView, actionId, event ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                val query = textView.text.toString()
+                searchModule(query)
+                true
+            }
+        }
+    }
+
+    private fun searchModule(query: String) {
+        if (query.isBlank()) {
+            //klo kosong ngapain
+            return
+        }
     }
 
 }
