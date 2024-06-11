@@ -10,11 +10,14 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.splashscreen.SplashScreen
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
+import com.bangkit.capstone.lingu.course.AllCourseActivity
 import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
+import com.bangkit.capstone.lingu.profile.ProfileActivity
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.canvas.CanvasActivity
 import com.bangkit.capstone.lingu.view.login.LoginActivity
@@ -73,22 +76,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupAction() {
-        binding.logoutButton.setOnClickListener {
-            lifecycleScope.launch {
-                val credentialManager = CredentialManager.create(this@MainActivity)
-                auth.signOut()
-                credentialManager.clearCredentialState(ClearCredentialStateRequest())
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                finish()
-            }
-            viewModel.logout()
-        }
 
         binding.tesCanvas.setOnClickListener {
             val intent = Intent(this, CanvasActivity::class.java)
             startActivity(intent)
 
         }
+
+        binding.searchButtonNonFill.setOnClickListener {
+            val intent = Intent(this, AllCourseActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.profileButton.setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener { textView, actionId, event ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                val query = textView.text.toString()
+                searchModule(query)
+                true
+            }
+        }
+
     }
 
     private fun playAnimation() {
@@ -100,12 +115,19 @@ class MainActivity : AppCompatActivity() {
 
         val name = ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(100)
         val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(100)
-        val logout = ObjectAnimator.ofFloat(binding.logoutButton, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
-            playSequentially(name, message, logout)
+            playSequentially(name, message)
             startDelay = 100
         }.start()
+    }
+
+    private fun searchModule(query: String) {
+        if (query.isBlank()) {
+            //klo kosong ngapain
+            return
+        }
+
     }
 
     private fun signOut() {
@@ -119,4 +141,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 }

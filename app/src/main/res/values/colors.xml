@@ -6,4 +6,5 @@
     <color name="primary_yellow">#FFE45E</color>
     <color name="neutral_grey">#191C1B</color>
     <color name="navy">#2D3D4F</color>
+    <color name="semi_transparent_black">#80000000</color>
 </resources>
