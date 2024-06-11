@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("com.google.gms.google-services")
+    id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -61,5 +63,6 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth-api-phone:17.5.0")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
-
+    implementation("androidx.room:room-ktx:2.4.0-beta02")
+    ksp("androidx.room:room-compiler:2.4.0-beta02")
 }
