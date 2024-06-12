@@ -55,15 +55,17 @@ class MainActivity : AppCompatActivity() {
 
             }
 
+            setupView(user.displayName)
+
         }
 
-        setupView()
         setupAction()
         playAnimation()
 
     }
 
-    private fun setupView() {
+    private fun setupView(displayName: String) {
+        binding.greetingTextView.text = displayName
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -73,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+
         supportActionBar?.hide()
     }
 
