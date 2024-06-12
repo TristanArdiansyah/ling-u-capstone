@@ -48,10 +48,11 @@ class MainActivity : AppCompatActivity() {
 
             auth = Firebase.auth
             val firebaseUser = auth.currentUser
-            if (firebaseUser == null) {
+            if (firebaseUser == null && !user.isLogin) {
                 // Not signed in, launch the Login activity
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
+
             }
 
         }
