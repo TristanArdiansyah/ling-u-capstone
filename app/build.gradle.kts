@@ -63,9 +63,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth-api-phone:17.5.0")
     implementation ("androidx.cardview:cardview:1.0.0")
     implementation ("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("androidx.room:room-ktx:2.4.0-beta02")
+    ksp("androidx.room:room-compiler:2.4.0-beta02")
     implementation ("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("androidx.room:room-ktx:2.4.0-beta02")
-    ksp("androidx.room:room-compiler:2.4.0-beta02")
 }
