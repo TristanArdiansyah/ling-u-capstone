@@ -168,7 +168,8 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null) {
-                        val userModel = UserModel(user.uid, user.displayName ?: "", user.email ?: "", idToken, true)
+                        val displayName = user.displayName ?: user.email?.substringBefore('@') ?: "User"
+                        val userModel = UserModel(user.uid, displayName, user.email ?: "", idToken, true)
                         viewModel.saveSession(userModel)
                         updateUI(user)
                     } else {
