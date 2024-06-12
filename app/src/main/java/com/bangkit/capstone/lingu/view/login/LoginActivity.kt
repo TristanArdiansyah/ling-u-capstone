@@ -20,6 +20,8 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.capstone.lingu.R
+import com.bangkit.capstone.lingu.data.RetrofitClient
+import com.bangkit.capstone.lingu.data.login.LoginResponse
 import com.bangkit.capstone.lingu.data.pref.UserModel
 import com.bangkit.capstone.lingu.databinding.ActivityLoginBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
@@ -81,7 +83,7 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
-            signInWithEmailPassword(email, password)
+            loginWithEmailPassword(email, password)
         }
 
         binding.signInButton.setOnClickListener {
@@ -89,19 +91,31 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun signInWithEmailPassword(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
+    private fun loginWithEmailPassword(email: String, password: String) {
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.login(email, password)
+                if (response.status == "success") {
+                    // Handle success
+                    Log.d(TAG, "loginWithEmail:success")
+                    val userModel = UserModel(uid = response.data.uid, displayName = response.data.fullName, email = response.data.email, token = "", isLogin = true)
+                    viewModel.saveSession(userModel)
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    
                 } else {
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    // Handle error
+                    Log.w(TAG, "loginWithEmail:failure")
+                    Toast.makeText(this@LoginActivity, "Authentication failed: ${response.message}", Toast.LENGTH_SHORT).show()
                     updateUI(null)
                 }
+            } catch (e: Exception) {
+                // Handle exception
+                Log.w(TAG, "loginWithEmail:failure", e)
+                Toast.makeText(this@LoginActivity, "Authentication failed: ${e.message}", Toast.LENGTH_SHORT).show()
+                updateUI(null)
             }
+        }
     }
 
     private fun signInWithGoogle() {
@@ -227,12 +241,13 @@ class LoginActivity : AppCompatActivity() {
         textView.movementMethod = LinkMovementMethod.getInstance()
     }
 
-    private fun updateUI(currentUser: FirebaseUser?) {
+    private fun updateUI(currentUser: FirebaseUser? = null) {
         if (currentUser != null) {
             val intent = Intent(this@LoginActivity, MainActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
+
         } else {
             startActivity(Intent(this@LoginActivity, WelcomeActivity::class.java))
             finish()
