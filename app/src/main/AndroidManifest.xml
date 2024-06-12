@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LingUApp">
         <activity
-            android:name=".profile.ProfileActivity"
+            android:name=".view.profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".course.AllCourseActivity"
+            android:name=".view.course.AllCourseActivity"
             android:exported="false" />
         <activity
             android:name=".view.welcome.WelcomeActivity"

@@ -15,9 +15,9 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
-import com.bangkit.capstone.lingu.course.AllCourseActivity
+import com.bangkit.capstone.lingu.view.course.AllCourseActivity
 import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
-import com.bangkit.capstone.lingu.profile.ProfileActivity
+import com.bangkit.capstone.lingu.view.profile.ProfileActivity
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.canvas.CanvasActivity
 import com.bangkit.capstone.lingu.view.login.LoginActivity

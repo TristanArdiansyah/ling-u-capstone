@@ -1,4 +1,4 @@
-package com.bangkit.capstone.lingu.profile
+package com.bangkit.capstone.lingu.view.profile
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -14,7 +14,7 @@ import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.capstone.lingu.R
-import com.bangkit.capstone.lingu.course.AllCourseActivity
+import com.bangkit.capstone.lingu.view.course.AllCourseActivity
 import com.bangkit.capstone.lingu.databinding.ActivityAllCourseBinding
 import com.bangkit.capstone.lingu.databinding.ActivityProfileBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
