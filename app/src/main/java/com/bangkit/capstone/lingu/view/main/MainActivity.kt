@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupView(displayName: String) {
-        binding.greetingTextView.text = displayName
+        binding.greetingTextView.text = "Halo, " + displayName
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())

@@ -5,7 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,16 +15,14 @@ import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.capstone.lingu.R
 import com.bangkit.capstone.lingu.view.course.AllCourseActivity
-import com.bangkit.capstone.lingu.databinding.ActivityAllCourseBinding
 import com.bangkit.capstone.lingu.databinding.ActivityProfileBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.login.LoginActivity
 import com.bangkit.capstone.lingu.view.main.MainActivity
 import com.bangkit.capstone.lingu.view.main.MainViewModel
 import com.bangkit.capstone.lingu.view.welcome.WelcomeActivity
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
+import com.google.firebase.auth.userProfileChangeRequest
 import kotlinx.coroutines.launch
 
 class ProfileActivity : AppCompatActivity() {
@@ -44,24 +42,22 @@ class ProfileActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-
             }
 
-            auth = Firebase.auth
+            auth = FirebaseAuth.getInstance()
             val firebaseUser = auth.currentUser
             if (firebaseUser == null && !user.isLogin) {
                 // Not signed in, launch the Login activity
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
             }
-
         }
 
         setupAction()
         playAnimation()
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.logoutButton.setOnClickListener {
             lifecycleScope.launch {
                 val credentialManager = CredentialManager.create(this@ProfileActivity)
@@ -82,6 +78,7 @@ class ProfileActivity : AppCompatActivity() {
             val intent = Intent(this, AllCourseActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     private fun playAnimation() {
@@ -99,3 +96,4 @@ class ProfileActivity : AppCompatActivity() {
         }.start()
     }
 }
+

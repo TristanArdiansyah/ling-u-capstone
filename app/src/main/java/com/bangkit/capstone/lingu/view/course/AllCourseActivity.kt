@@ -43,7 +43,7 @@ class AllCourseActivity : AppCompatActivity() {
 
     private fun setupView(){
         viewModel.getSession().observe(this){user ->
-            binding.greetingTextView.text = user.displayName
+            binding.greetingTextView.text = "Halo, " + user.displayName
         }
         viewModel.getAllCourse().observe(this) {listCourses ->
             val courseAdapter = CourseAdapter(listCourses){ course ->
