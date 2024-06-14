@@ -3,10 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- DrawingView dengan ukuran kotak yang lebih kecil -->
     <com.bangkit.capstone.lingu.view.canvas.DrawingView
         android:id="@+id/drawingView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="548dp"
+        android:layout_centerInParent="true"
+        android:background="@color/primary_red" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -17,27 +20,50 @@
         android:padding="16dp">
 
         <Button
-            android:id="@+id/undoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Undo"/>
-
-        <Button
-            android:id="@+id/redoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Redo"/>
-
-        <Button
             android:id="@+id/clearButton"
+            android:backgroundTint="@color/primary_red"
+            android:textColor="@color/primary_yellow"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Clear"/>
 
         <Button
             android:id="@+id/saveButton"
+            android:backgroundTint="@color/primary_red"
+            android:textColor="@color/primary_yellow"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"/>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/undoButton"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="211dp"
+        android:backgroundTint="@color/white"
+        android:foreground="@drawable/undo_image" />
+
+    <Button
+        android:id="@+id/redoButton"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="208dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="154dp"
+        android:backgroundTint="@color/white"
+        android:foreground="@drawable/redo_image" />
+
 </RelativeLayout>

@@ -92,9 +92,11 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun loginWithEmailPassword(email: String, password: String) {
+        binding.progressBarLogin.visibility = View.VISIBLE
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.login(email, password)
+                binding.progressBarLogin.visibility = View.GONE
                 if (response.status == "success") {
                     // Handle success
                     Log.d(TAG, "loginWithEmail:success")
@@ -102,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                     viewModel.saveSession(userModel)
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
-                    
+
                 } else {
                     // Handle error
                     Log.w(TAG, "loginWithEmail:failure")
@@ -110,6 +112,7 @@ class LoginActivity : AppCompatActivity() {
                     updateUI(null)
                 }
             } catch (e: Exception) {
+                binding.progressBarLogin.visibility = View.GONE
                 // Handle exception
                 Log.w(TAG, "loginWithEmail:failure", e)
                 Toast.makeText(this@LoginActivity, "Authentication failed: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -168,7 +171,8 @@ class LoginActivity : AppCompatActivity() {
                     Log.d(TAG, "signInWithCredential:success")
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null) {
-                        val userModel = UserModel(user.uid, user.displayName ?: "", user.email ?: "", idToken, true, "1")
+                        val displayName = user.displayName ?: user.email?.substringBefore('@') ?: "User"
+                        val userModel = UserModel(user.uid, displayName, user.email ?: "", idToken, true, lastCourse = "1")
                         viewModel.saveSession(userModel)
                         updateUI(user)
                     } else {

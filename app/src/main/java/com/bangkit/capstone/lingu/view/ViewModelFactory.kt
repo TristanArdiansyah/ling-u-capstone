@@ -24,7 +24,7 @@ class ViewModelFactory(private val repository: UserRepository, private val chara
                 LoginViewModel(repository) as T
             }
             modelClass.isAssignableFrom(CourseViewModel::class.java) -> {
-                CourseViewModel(charactersRepository) as T
+                CourseViewModel(repository, charactersRepository) as T
             }
             modelClass.isAssignableFrom(CharactersViewModel::class.java) -> {
                 CharactersViewModel(charactersRepository) as T

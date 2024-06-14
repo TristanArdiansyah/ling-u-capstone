@@ -57,15 +57,26 @@ class SignupActivity : AppCompatActivity() {
             val password = binding.passwordEditText.text.toString()
             val confirmPassword = binding.confirmPasswordEditText.text.toString()
 
-            register(fullName, email, password, confirmPassword)
+            if (password != confirmPassword) {
+                AlertDialog.Builder(this@SignupActivity).apply {
+                    setTitle("Error")
+                    setMessage("Passwords does not match.")
+                    setPositiveButton("OK", null)
+                    create()
+                    show()
+                }
+            } else {
+                binding.progressBarSignUp.visibility = View.VISIBLE
+                register(fullName, email, password, confirmPassword)
+            }
         }
     }
-
 
     private fun register(fullName: String, email: String, password: String, confirmPassword: String) {
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.register(fullName, email, password, confirmPassword)
+                binding.progressBarSignUp.visibility = View.GONE
                 if (response.status == "success") {
                     // Handle success
                     AlertDialog.Builder(this@SignupActivity).apply {
@@ -90,6 +101,7 @@ class SignupActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
+                binding.progressBarSignUp.visibility = View.GONE
                 // Handle exception
                 AlertDialog.Builder(this@SignupActivity).apply {
                     setTitle("Error")

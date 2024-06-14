@@ -86,8 +86,8 @@
             android:id="@+id/searchBar"
             android:layout_width="325dp"
             android:layout_height="41dp"
-            android:layout_marginTop="75dp"
             android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="75dp"
             android:backgroundTint="@color/white"
             android:hint="Masukkan Nama Modul"
             app:layout_anchor="@+id/bottomBarReplacement"
@@ -100,13 +100,13 @@
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/primary_red"
             android:clickable="true"
             android:foreground="@drawable/profile__vector"
             app:layout_anchor="@+id/bottomBarReplacement"
-            app:layout_anchorGravity="end|top"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp" />
+            app:layout_anchorGravity="end|top" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -125,7 +125,7 @@
     <View
         android:id="@+id/bottomView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +145,7 @@
         app:layout_constraintHorizontal_bias="0.41"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.99" />
 
     <Button
         android:id="@+id/searchButtonFilled"
@@ -158,7 +158,7 @@
         app:layout_constraintHorizontal_bias="0.634"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        app:layout_constraintVertical_bias="0.99" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
