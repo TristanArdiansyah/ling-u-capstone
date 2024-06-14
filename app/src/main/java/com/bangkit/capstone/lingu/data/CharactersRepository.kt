@@ -17,6 +17,9 @@ class CharactersRepository(private val charactersDao: CharactersDao) {
     fun getAllCharactersAndCourse(): LiveData<List<CharactersAndCourse>> = charactersDao.getAllCharactersAndCourse()
 
     fun getAllCourseAndCharacters(): LiveData<List<CourseAndCharacters>> = charactersDao.getAllCourseAndCharacters()
+    fun getCourseAndCharactersById(courseId: Int): LiveData<CourseAndCharacters> = charactersDao.getCourseDetailByid(courseId)
+
+    fun getCharactersById(charId: Int): LiveData<Characters> = charactersDao.getCharacterDetailByid(charId)
 
     suspend fun insertAllData() {
         charactersDao.insertCourse(InitialDataSource.getCourse())
