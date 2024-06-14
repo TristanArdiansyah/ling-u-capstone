@@ -24,7 +24,6 @@ class AllCourseActivity : AppCompatActivity() {
         binding = ActivityAllCourseBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         setupAction()
         setupView()
     }
@@ -42,13 +41,13 @@ class AllCourseActivity : AppCompatActivity() {
     }
 
     private fun setupView(){
-        viewModel.getSession().observe(this){user ->
-            binding.greetingTextView.text = "Halo, " + user.displayName
-        }
         viewModel.getAllCourse().observe(this) {listCourses ->
             val courseAdapter = CourseAdapter(listCourses){ course ->
                 // Handle enroll button click
                 // Example: Toast.makeText(this, "Enrolled in ${course.name}", Toast.LENGTH_SHORT).show()
+                val detailIntent = Intent(this@AllCourseActivity, DetailCourseActivity::class.java)
+                detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.courseId)
+                startActivity(detailIntent)
             }
             binding.recyclerView.apply {
                 layoutManager = LinearLayoutManager(this@AllCourseActivity)

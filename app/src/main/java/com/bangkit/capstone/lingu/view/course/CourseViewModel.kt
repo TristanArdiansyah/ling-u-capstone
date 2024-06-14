@@ -2,6 +2,7 @@ package com.bangkit.capstone.lingu.view.course
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Query
 import androidx.lifecycle.asLiveData
 import com.bangkit.capstone.lingu.data.CharactersRepository
 import com.bangkit.capstone.lingu.data.UserRepository
@@ -23,4 +24,6 @@ class CourseViewModel(private val repository: UserRepository, private val charac
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()
     }
+    fun getCourseAndCharactersById(courseId: Int): LiveData<CourseAndCharacters> = charactersRepository.getCourseAndCharactersById(courseId)
+
 }

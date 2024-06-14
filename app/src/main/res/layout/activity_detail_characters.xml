@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.main.MainActivity">
+    tools:context=".view.characters.DetailCharactersActivity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guidelineHorizontal"
@@ -12,7 +13,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.1"
+        app:layout_constraintGuide_begin="73dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -21,8 +22,19 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="132dp"
+        app:layout_constraintGuide_begin="285dp"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_hanzi"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        tools:text="上"
+        android:gravity="center"
+        android:textSize="128sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatorLayout"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
@@ -33,14 +45,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <View
             android:id="@+id/bottomBarReplacement"
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="70dp"
             android:background="@color/primary_red"
             app:layout_constraintBottom_toBottomOf="parent" />
-
-
         <TextView
             android:id="@+id/page_details"
             android:layout_width="wrap_content"
@@ -50,11 +61,10 @@
             android:layout_marginTop="13dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="@string/all_courses"
+            android:text="@string/character_details"
             app:layout_anchor="@+id/bottomBarReplacement"
-            app:layout_anchorGravity="center|top"
-            android:layout_marginStart="22dp"
-            android:paddingTop="14dp"/>
+            app:layout_anchorGravity="center"
+            android:layout_marginStart="22dp" />
         <Button
             android:id="@+id/backButtonText"
             android:layout_width="wrap_content"
@@ -82,93 +92,102 @@
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp" />
 
-        <com.google.android.material.search.SearchBar
-            android:id="@+id/searchBar"
-            android:layout_width="325dp"
-            android:layout_height="41dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="75dp"
-            android:backgroundTint="@color/white"
-            android:hint="Masukkan Nama Modul"
-            app:layout_anchor="@+id/bottomBarReplacement"
-            app:layout_anchorGravity="bottom|center">
 
-        </com.google.android.material.search.SearchBar>
+
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/profileButton"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:backgroundTint="@color/primary_red"
             android:clickable="true"
             android:foreground="@drawable/profile__vector"
             app:layout_anchor="@+id/bottomBarReplacement"
-            app:layout_anchorGravity="end|top" />
+            app:layout_anchorGravity="end|top"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <com.google.android.material.search.SearchView
-        android:id="@+id/searchView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:hint="Masukkan Nama Modul"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/tv_characters_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </com.google.android.material.search.SearchView>
-
-    <View
-        android:id="@+id/bottomView"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal3"
+        tools:text="shàng" />
+    <TextView
+        android:id="@+id/meaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.998" />
-
-    <Button
-        android:id="@+id/homeButton"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/home_vector"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.41"
+        app:layout_constraintTop_toBottomOf="@id/tv_characters_name"
+        android:text="@string/meaning" />
+    <TextView
+        android:id="@+id/tv_english_meaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99" />
-
-    <Button
-        android:id="@+id/searchButtonFilled"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/search_vector_filled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.634"
+        app:layout_constraintTop_toBottomOf="@id/meaning"
+        tools:text="up,above,on" />
+    <TextView
+        android:id="@+id/examples"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.99" />
+        app:layout_constraintTop_toBottomOf="@id/tv_english_meaning"
+        android:text="@string/examples" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TextView
+        android:id="@+id/tv_hanzi_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guidelineHorizontal3"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/examples"
+        tools:text="書在桌子上。" />
+    <TextView
+        android:id="@+id/tv_pinyin_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_hanzi_example"
+        tools:text="Shū zài zhuōzi shàng" />
+    <TextView
+        android:id="@+id/tv_english_example"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_pinyin_example"
+        tools:text="The book is on the table." />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LingUApp">
         <activity
+            android:name=".view.characters.DetailCharactersActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.course.DetailCourseActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.profile.ProfileActivity"
             android:exported="false" />
         <activity

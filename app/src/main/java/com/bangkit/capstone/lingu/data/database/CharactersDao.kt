@@ -31,4 +31,11 @@ interface CharactersDao {
     @Query("SELECT * from course")
     fun getAllCourseAndCharacters(): LiveData<List<CourseAndCharacters>>
 
+    @Transaction
+    @Query("SELECT * from course WHERE courseId = :query")
+    fun getCourseDetailByid(query: Int): LiveData<CourseAndCharacters>
+
+    @Transaction
+    @Query("SELECT * from characters WHERE characterId = :query")
+    fun getCharacterDetailByid(query: Int): LiveData<Characters>
 }

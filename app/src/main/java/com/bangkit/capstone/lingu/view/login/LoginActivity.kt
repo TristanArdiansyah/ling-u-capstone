@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                 if (response.status == "success") {
                     // Handle success
                     Log.d(TAG, "loginWithEmail:success")
-                    val userModel = UserModel(uid = response.data.uid, displayName = response.data.fullName, email = response.data.email, token = "", isLogin = true)
+                    val userModel = UserModel(uid = response.data.uid, displayName = response.data.fullName, email = response.data.email, token = "", isLogin = true, lastCourse = "1")
                     viewModel.saveSession(userModel)
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
@@ -172,7 +172,7 @@ class LoginActivity : AppCompatActivity() {
                     val user: FirebaseUser? = auth.currentUser
                     if (user != null) {
                         val displayName = user.displayName ?: user.email?.substringBefore('@') ?: "User"
-                        val userModel = UserModel(user.uid, displayName, user.email ?: "", idToken, true)
+                        val userModel = UserModel(user.uid, displayName, user.email ?: "", idToken, true, lastCourse = "1")
                         viewModel.saveSession(userModel)
                         updateUI(user)
                     } else {

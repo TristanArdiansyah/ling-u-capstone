@@ -7,6 +7,7 @@ import com.bangkit.capstone.lingu.data.CharactersRepository
 import com.bangkit.capstone.lingu.data.UserRepository
 import com.bangkit.capstone.lingu.data.database.CharactersDao
 import com.bangkit.capstone.lingu.di.Injection
+import com.bangkit.capstone.lingu.view.characters.CharactersViewModel
 import com.bangkit.capstone.lingu.view.course.CourseViewModel
 import com.bangkit.capstone.lingu.view.login.LoginViewModel
 import com.bangkit.capstone.lingu.view.main.MainViewModel
@@ -24,6 +25,9 @@ class ViewModelFactory(private val repository: UserRepository, private val chara
             }
             modelClass.isAssignableFrom(CourseViewModel::class.java) -> {
                 CourseViewModel(repository, charactersRepository) as T
+            }
+            modelClass.isAssignableFrom(CharactersViewModel::class.java) -> {
+                CharactersViewModel(charactersRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
