@@ -1,5 +1,6 @@
 package com.bangkit.capstone.lingu.view.course
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ class CourseAdapter(private val courses: List<Course>, private val onEnrollClick
         fun bind(courseModel: Course) {
             binding.courseNameTextView.text = courseModel.name
             binding.courseImageView.setImageResource(courseModel.imageResId)
+            Log.d("CourseAdapter", "Binding course: ${courseModel.name}, ImageResId: ${courseModel.imageResId}")
             binding.enrollButton.setOnClickListener { onEnrollClick(courseModel) }
         }
     }

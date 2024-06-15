@@ -41,8 +41,8 @@ class AllCourseActivity : AppCompatActivity() {
     }
 
     private fun setupView(){
-        viewModel.getAllCourse().observe(this) {listCourses ->
-            val courseAdapter = CourseAdapter(listCourses){ course ->
+        viewModel.getAllCourse().observe(this) { listCourses ->
+            val courseAdapter = CourseAdapter(listCourses) { course ->
                 // Handle enroll button click
                 // Example: Toast.makeText(this, "Enrolled in ${course.name}", Toast.LENGTH_SHORT).show()
                 val detailIntent = Intent(this@AllCourseActivity, DetailCourseActivity::class.java)
@@ -69,9 +69,10 @@ class AllCourseActivity : AppCompatActivity() {
 
     private fun searchModule(query: String) {
         if (query.isBlank()) {
-            //klo kosong ngapain
+            // Handle blank query
             return
         }
     }
-
 }
+
+

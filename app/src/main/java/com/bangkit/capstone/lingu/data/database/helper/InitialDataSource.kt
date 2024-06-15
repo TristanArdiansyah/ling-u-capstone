@@ -16,7 +16,6 @@ object InitialDataSource {
     }
     fun getCharacters(): List<Characters> {
         return listOf(
-            Characters(1,	"上",	"shàng","up,above,on","書在桌子上。","Shū zài zhuōzi shàng.","The book is on the table.","null", 1 ),
             Characters(1, "上", "shàng", "up, above, on", "書在桌子上。", "Shū zài zhuōzi shàng.", "The book is on the table.", "null", 1),
             Characters(2, "下", "xià", "down, below, under", "貓在桌子下。", "Māo zài zhuōzi xià.", "The cat is under the table.", "null", 1),
             Characters(3, "內", "nèi", "inside, internal", "房間內很溫暖。", "Fángjiān nèi hěn wēnnuǎn.", "It's warm inside the room.", "null", 1),
