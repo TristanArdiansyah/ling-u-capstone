@@ -16,8 +16,7 @@ class DrawingView(context: Context, attrs: AttributeSet?) : View(context, attrs)
         color = Color.BLACK
         isAntiAlias = true
         style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND  // Makes the ends of the stroke rounded
-        strokeJoin = Paint.Join.ROUND // Makes the joints of the stroke rounded
+
         strokeWidth = 50f
     }
 

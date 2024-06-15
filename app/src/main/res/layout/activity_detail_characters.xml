@@ -189,5 +189,20 @@
         app:layout_constraintTop_toBottomOf="@id/tv_pinyin_example"
         tools:text="The book is on the table." />
 
+    <Button
+        android:id="@+id/canvasPage"
+        android:layout_width="275dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="@color/navy"
+        android:text="Canvas"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toTopOf="@+id/guidelineHorizontal3"
+        app:layout_constraintVertical_bias="0.721" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
