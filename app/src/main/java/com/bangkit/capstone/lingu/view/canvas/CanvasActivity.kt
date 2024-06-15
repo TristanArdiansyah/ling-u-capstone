@@ -7,6 +7,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bangkit.capstone.lingu.databinding.ActivityCanvasBinding
 import com.bangkit.capstone.lingu.ml.Arithmetic
+import com.bangkit.capstone.lingu.ml.Bodyparts
+import com.bangkit.capstone.lingu.ml.Conversational
+import com.bangkit.capstone.lingu.ml.Locations
+import com.bangkit.capstone.lingu.ml.Nature
+import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.nio.ByteBuffer
@@ -15,6 +20,9 @@ import java.nio.ByteOrder
 class CanvasActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCanvasBinding
+    companion object {
+        const val EXTRA_COURSE_ID = "EXTRA_COURSE_ID"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,29 +47,159 @@ class CanvasActivity : AppCompatActivity() {
     }
 
     private fun saveDrawing() {
+        val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
         val bitmap: Bitmap = binding.drawingView.getBitmap()
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true)
         val byteBuffer = convertBitmapToByteBuffer(scaledBitmap)
 
-        // Initialize the TensorFlow Lite model with the context
-        val model = Arithmetic.newInstance(this)
+        if (courseId == 1){
+            // Initialize the TensorFlow Lite model with the context
+            val model = Locations.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(byteBuffer)
 
-        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
-        inputFeature0.loadBuffer(byteBuffer)
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
 
-        val outputs = model.process(inputFeature0)
-        val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+            model.close()
 
-        model.close()
+            // Get the model output as a float array
+            val outputArray = outputFeature0.floatArray
 
-        // Log the model output for debugging
-        val outputArray = outputFeature0.floatArray
-        Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            // Find the index of the highest value in the output array
+            var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            maxIndex = maxIndex+1
 
-        // Update the result TextView on the main thread
-        runOnUiThread {
-            binding.result.text = "Result: ${outputArray.joinToString()}"
-            Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            // Log the model output and the index of the highest value for debugging
+            Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            Log.d("ModelOutput", "Index of highest value: $maxIndex")
+
+            // Update the result TextView on the main thread
+            runOnUiThread {
+                binding.result.text = "Result: $maxIndex"
+                Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        if (courseId == 2){
+            // Initialize the TensorFlow Lite model with the context
+            val model = Bodyparts.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(byteBuffer)
+
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+            model.close()
+
+            // Get the model output as a float array
+            val outputArray = outputFeature0.floatArray
+
+            // Find the index of the highest value in the output array
+            var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            maxIndex = maxIndex+1
+
+            // Log the model output and the index of the highest value for debugging
+            Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            Log.d("ModelOutput", "Index of highest value: $maxIndex")
+
+            // Update the result TextView on the main thread
+            runOnUiThread {
+                binding.result.text = "Result: $maxIndex"
+                Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        if (courseId == 3){
+            // Initialize the TensorFlow Lite model with the context
+            val model = Arithmetic.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(byteBuffer)
+
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+            model.close()
+
+            // Get the model output as a float array
+            val outputArray = outputFeature0.floatArray
+
+            // Find the index of the highest value in the output array
+            var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            maxIndex = maxIndex+1
+
+            // Log the model output and the index of the highest value for debugging
+            Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            Log.d("ModelOutput", "Index of highest value: $maxIndex")
+
+            // Update the result TextView on the main thread
+            runOnUiThread {
+                binding.result.text = "Result: $maxIndex"
+                Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        if (courseId == 4){
+            // Initialize the TensorFlow Lite model with the context
+            val model = Nature.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(byteBuffer)
+
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+            model.close()
+
+            // Get the model output as a float array
+            val outputArray = outputFeature0.floatArray
+
+            // Find the index of the highest value in the output array
+            var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            maxIndex = maxIndex+1
+
+            // Log the model output and the index of the highest value for debugging
+            Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            Log.d("ModelOutput", "Index of highest value: $maxIndex")
+
+            // Update the result TextView on the main thread
+            runOnUiThread {
+                binding.result.text = "Result: $maxIndex"
+                Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+
+        if (courseId == 5){
+            // Initialize the TensorFlow Lite model with the context
+            val model = Conversational.newInstance(this)
+            val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
+            inputFeature0.loadBuffer(byteBuffer)
+
+            val outputs = model.process(inputFeature0)
+            val outputFeature0 = outputs.outputFeature0AsTensorBuffer
+
+            model.close()
+
+            // Get the model output as a float array
+            val outputArray = outputFeature0.floatArray
+
+            // Find the index of the highest value in the output array
+            var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            maxIndex = maxIndex+1
+
+            // Log the model output and the index of the highest value for debugging
+            Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
+            Log.d("ModelOutput", "Index of highest value: $maxIndex")
+
+            // Update the result TextView on the main thread
+            runOnUiThread {
+                binding.result.text = "Result: $maxIndex"
+                Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
+            }
+
         }
 
         // Navigate to MainActivity if needed

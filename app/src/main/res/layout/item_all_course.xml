@@ -19,8 +19,7 @@
             android:scaleType="centerCrop"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/arithmetic_image"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <FrameLayout
             android:layout_width="0dp"

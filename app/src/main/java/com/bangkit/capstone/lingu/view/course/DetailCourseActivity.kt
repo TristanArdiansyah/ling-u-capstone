@@ -44,6 +44,7 @@ class DetailCourseActivity : AppCompatActivity() {
 //                 Handle class click
                 val detailCharIntent = Intent(this@DetailCourseActivity, DetailCharactersActivity::class.java)
                 detailCharIntent.putExtra(DetailCharactersActivity.EXTRA_CHARACTERS_ID, characters.characterId)
+                detailCharIntent.putExtra(DetailCharactersActivity.EXTRA_COURSE_ID,  courseId)
                 startActivity(detailCharIntent)
             }
             binding.recyclerView.apply {

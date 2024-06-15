@@ -1,5 +1,6 @@
 package com.bangkit.capstone.lingu.view.characters
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -11,6 +12,7 @@ import com.bangkit.capstone.lingu.R
 import com.bangkit.capstone.lingu.databinding.ActivityDetailCharactersBinding
 import com.bangkit.capstone.lingu.databinding.ActivityDetailCourseBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
+import com.bangkit.capstone.lingu.view.canvas.CanvasActivity
 import com.bangkit.capstone.lingu.view.course.CharactersAdapter
 import com.bangkit.capstone.lingu.view.course.CourseViewModel
 import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
@@ -21,6 +23,7 @@ class DetailCharactersActivity : AppCompatActivity() {
     }
     companion object {
         const val EXTRA_CHARACTERS_ID = "EXTRA_CHARACTERS_ID"
+        const val EXTRA_COURSE_ID = "EXTRA_COURSE_ID"
     }
     private lateinit var binding: ActivityDetailCharactersBinding
 
@@ -36,9 +39,10 @@ class DetailCharactersActivity : AppCompatActivity() {
             insets
         }
         setupView()
+        setupAction()
     }
     private fun setupView(){
-        val charId = intent.getIntExtra(DetailCharactersActivity.EXTRA_CHARACTERS_ID, 0)
+        val charId = intent.getIntExtra(EXTRA_CHARACTERS_ID, 0)
         viewModel.getCharacterById(charId).observe(this) { characters ->
             binding.tvHanzi.text = characters.hanzi
             binding.tvCharactersName.text = characters.pinyin
@@ -46,6 +50,16 @@ class DetailCharactersActivity : AppCompatActivity() {
             binding.tvHanziExample.text = characters.example_hanzi
             binding.tvPinyinExample.text = characters.example_pinyin
             binding.tvEnglishExample.text = characters.english
+        }
+    }
+
+    private fun setupAction(){
+        val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
+        binding.canvasPage.setOnClickListener {
+            val intent = Intent(this, CanvasActivity::class.java)
+            intent.putExtra(CanvasActivity.EXTRA_COURSE_ID, courseId)
+            startActivity(intent)
+
         }
     }
 
