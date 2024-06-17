@@ -81,11 +81,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAction() {
 
-        binding.tesCanvas.setOnClickListener {
-            val intent = Intent(this, CanvasActivity::class.java)
-            startActivity(intent)
-
-        }
+//        binding. tesCanvas.setOnClickListener {
+//            val intent = Intent(this, CanvasActivity::class.java)
+//            startActivity(intent)
+//
+//        }
 
         binding.searchButtonNonFill.setOnClickListener {
             val intent = Intent(this, AllCourseActivity::class.java)

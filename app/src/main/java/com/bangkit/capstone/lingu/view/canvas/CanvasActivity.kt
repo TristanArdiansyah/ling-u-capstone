@@ -1,7 +1,12 @@
 package com.bangkit.capstone.lingu.view.canvas
 
+import android.content.ContentValues
+import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -11,9 +16,13 @@ import com.bangkit.capstone.lingu.ml.Bodyparts
 import com.bangkit.capstone.lingu.ml.Conversational
 import com.bangkit.capstone.lingu.ml.Locations
 import com.bangkit.capstone.lingu.ml.Nature
+import com.bangkit.capstone.lingu.view.characters.DetailCharactersActivity
 import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -22,12 +31,15 @@ class CanvasActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCanvasBinding
     companion object {
         const val EXTRA_COURSE_ID = "EXTRA_COURSE_ID"
+        const val EXTRA_CHARACTERS_ID = "EXTRA_CHARACTERS_ID"
+        const val HANZI_CHAR = "HANZI_CHAR"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCanvasBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.tvHanzi.text = intent.getStringExtra(HANZI_CHAR)
 
         binding.undoButton.setOnClickListener {
             binding.drawingView.undo()
@@ -43,15 +55,17 @@ class CanvasActivity : AppCompatActivity() {
 
         binding.saveButton.setOnClickListener {
             saveDrawing()
+
         }
     }
 
     private fun saveDrawing() {
         val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
+        val charId = intent.getIntExtra(CanvasActivity.EXTRA_CHARACTERS_ID, 0)
         val bitmap: Bitmap = binding.drawingView.getBitmap()
-        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, true)
+        val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
         val byteBuffer = convertBitmapToByteBuffer(scaledBitmap)
-
+        saveBitmapToGallery(this@CanvasActivity, scaledBitmap, "canvas_${courseId}_${charId}" )
         if (courseId == 1){
             // Initialize the TensorFlow Lite model with the context
             val model = Locations.newInstance(this)
@@ -68,7 +82,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Find the index of the highest value in the output array
             var maxIndex = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
-            maxIndex = maxIndex+1
+            maxIndex = maxIndex
 
             // Log the model output and the index of the highest value for debugging
             Log.d("ModelOutput", "Output: ${outputArray.joinToString()}")
@@ -76,7 +90,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result: $maxIndex"
+                binding.result.text = "Result ${charId} Percentage: ${outputArray[charId]*100}% Max: $maxIndex"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
 
@@ -106,7 +120,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result: $maxIndex"
+                binding.result.text = "Result ${charId} Percentage: ${outputArray[charId]} "
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
 
@@ -136,7 +150,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result: $maxIndex"
+                binding.result.text = "Result Percentage: ${outputArray[charId]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
 
@@ -166,7 +180,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result: $maxIndex"
+                binding.result.text = "Result Percentage: ${outputArray[charId]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
 
@@ -196,7 +210,7 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result: $maxIndex"
+                binding.result.text = "Result Percentage: ${outputArray[charId]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
 
@@ -225,5 +239,30 @@ class CanvasActivity : AppCompatActivity() {
             }
         }
         return byteBuffer
+    }private fun saveBitmapToGallery(context: Context, bitmap: Bitmap, fileName: String) {
+        val fos: OutputStream?
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val resolver = context.contentResolver
+            val contentValues = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName.jpg")
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+            }
+
+            val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+            fos = resolver.openOutputStream(imageUri!!)
+        } else {
+            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val image = File(imagesDir, "$fileName.jpg")
+            fos = FileOutputStream(image)
+        }
+
+        fos?.use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            Toast.makeText(context, "Image saved to gallery", Toast.LENGTH_SHORT).show()
+        }
     }
+
+
 }

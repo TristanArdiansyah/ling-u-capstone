@@ -31,12 +31,17 @@ class AllCourseActivity : AppCompatActivity() {
     private fun setupAction(){
         binding.homeButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
+            finish()
         }
 
         binding.profileButton.setOnClickListener{
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
+        }
+        binding.backButton.setOnClickListener{
+            finish()
         }
     }
 

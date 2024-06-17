@@ -184,8 +184,8 @@
             android:id="@+id/signInButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:backgroundTint="@android:color/transparent"
+            android:background="@android:color/white"
+            android:backgroundTint="@android:color/white"
             tools:alpha="100"/>
 
     </FrameLayout>
