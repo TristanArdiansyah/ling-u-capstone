@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/semi_transparent_black">
 
     <!-- DrawingView dengan ukuran kotak yang lebih kecil -->
     <com.bangkit.capstone.lingu.view.canvas.DrawingView
@@ -57,7 +58,7 @@
 
     <Button
         android:id="@+id/undoButton"
-        android:layout_width="58dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -65,13 +66,12 @@
         android:layout_marginStart="137dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="216dp"
-        android:backgroundTint="@color/white"
-        android:foreground="@drawable/undo_image"
-        android:textColor="@color/primary_red" />
+        android:background="@color/transparent"
+        android:foreground="@drawable/undo_image" />
 
     <Button
         android:id="@+id/redoButton"
-        android:layout_width="58dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -79,7 +79,7 @@
         android:layout_marginStart="218dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="134dp"
-        android:backgroundTint="@color/white"
+        android:background="@color/transparent"
         android:foreground="@drawable/redo_image"
         android:textColor="@color/primary_red" />
 
@@ -92,11 +92,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="109dp"
+        android:layout_marginTop="143dp"
         android:layout_marginEnd="44dp"
-        android:layout_marginBottom="78dp"
-        android:text="@string/draw_on_red_canvas"
+        android:layout_marginBottom="44dp"
+        android:text="@string/draw_on_white_canvas"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <TextView
@@ -108,11 +109,12 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="46dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="21dp"
         android:layout_marginEnd="45dp"
-        android:layout_marginBottom="177dp"
-        android:text="Result"
+        android:layout_marginBottom="165dp"
+        android:text="@string/result"
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
 </RelativeLayout>
