@@ -14,6 +14,7 @@ data class Characters(
     val example_english: String,
     val part_of_speech: String,
     val coId: Int,
+    val idOnCourse: Int
 )
 
 @Entity

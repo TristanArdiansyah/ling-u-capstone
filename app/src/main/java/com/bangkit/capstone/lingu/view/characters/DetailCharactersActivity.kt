@@ -55,12 +55,22 @@ class DetailCharactersActivity : AppCompatActivity() {
 
     private fun setupAction(){
         val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
-        binding.canvasPage.setOnClickListener {
-            val intent = Intent(this, CanvasActivity::class.java)
-            intent.putExtra(CanvasActivity.EXTRA_COURSE_ID, courseId)
-            startActivity(intent)
+        var charId = intent.getIntExtra(EXTRA_CHARACTERS_ID, 0)
+        viewModel.getCharacterById(charId).observe(this) { characters ->
+            val charIdOnCourse = characters.idOnCourse
+            binding.canvasPage.setOnClickListener {
+                val intent = Intent(this, CanvasActivity::class.java)
+                intent.putExtra(CanvasActivity.EXTRA_COURSE_ID, courseId)
+                intent.putExtra(CanvasActivity.EXTRA_CHARACTERS_ID, charIdOnCourse)
+                intent.putExtra(CanvasActivity.HANZI_CHAR, characters.hanzi)
+                startActivity(intent)
 
+            }
         }
+        binding.backButton.setOnClickListener{
+            finish()
+        }
+
     }
 
 }
