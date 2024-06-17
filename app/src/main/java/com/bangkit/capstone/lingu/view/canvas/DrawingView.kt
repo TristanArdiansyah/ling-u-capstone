@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -16,7 +17,6 @@ class DrawingView(context: Context, attrs: AttributeSet?) : View(context, attrs)
         color = Color.BLACK
         isAntiAlias = true
         style = Paint.Style.STROKE
-
         strokeWidth = 50f
     }
 
@@ -52,8 +52,7 @@ class DrawingView(context: Context, attrs: AttributeSet?) : View(context, attrs)
             else -> return false
         }
 
-        // Indicate view should be redrawn
-        invalidate()
+        invalidate() // Indicate view should be redrawn
         return true
     }
 
@@ -80,7 +79,18 @@ class DrawingView(context: Context, attrs: AttributeSet?) : View(context, attrs)
     fun getBitmap(): Bitmap {
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bitmap)
+        canvas.drawColor(Color.TRANSPARENT) // Set the background to transparent
         draw(canvas)
         return bitmap
+    }
+
+    private fun getBoundingBox(paths: Stack<android.graphics.Path>): RectF {
+        val rectF = RectF()
+        for (path in paths) {
+            val pathBounds = RectF()
+            path.computeBounds(pathBounds, true)
+            rectF.union(pathBounds)
+        }
+        return rectF
     }
 }

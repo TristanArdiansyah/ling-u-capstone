@@ -5,7 +5,6 @@
     <!-- DrawingView dengan ukuran kotak yang lebih kecil -->
     <com.bangkit.capstone.lingu.view.canvas.DrawingView
         android:id="@+id/drawingView"
-        android:backgroundTint="@color/primary_red"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_centerInParent="true"
