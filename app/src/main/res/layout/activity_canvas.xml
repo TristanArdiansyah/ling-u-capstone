@@ -5,10 +5,21 @@
     <!-- DrawingView dengan ukuran kotak yang lebih kecil -->
     <com.bangkit.capstone.lingu.view.canvas.DrawingView
         android:id="@+id/drawingView"
+        android:backgroundTint="@color/white"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_centerInParent="true"
         android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_hanzi"
+        android:layout_width="300dp"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:text="上"
+        android:textSize="260sp"
+        android:gravity="center"
+        android:textColor="@color/semi_transparent_black"/>
 
     <LinearLayout
         android:id="@+id/linearLayout"

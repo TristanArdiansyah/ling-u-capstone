@@ -26,4 +26,7 @@
     <string name="all_courses">All Courses</string>
     <string name="back">Back</string>
     <string name="draw_on_red_canvas">Draw On Red Canvas</string>
+    <string name="continue_progress">Continue Progress</string>
+    <string name="masukkan_nama_modul">Masukkan Nama Modul</string>
+    <string name="halo_username">Halo, Username</string>
 </resources>

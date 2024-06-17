@@ -12,6 +12,8 @@ import com.bangkit.capstone.lingu.R
 import com.bangkit.capstone.lingu.databinding.ActivityDetailCourseBinding
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.characters.DetailCharactersActivity
+import com.bangkit.capstone.lingu.view.main.MainActivity
+import com.bangkit.capstone.lingu.view.profile.ProfileActivity
 
 class DetailCourseActivity : AppCompatActivity() {
     private val viewModel by viewModels<CourseViewModel> {
@@ -33,6 +35,28 @@ class DetailCourseActivity : AppCompatActivity() {
             insets
         }
         setupView()
+        setupAction()
+    }
+    private fun setupAction(){
+        binding.homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+        binding.searchButtonFilled.setOnClickListener {
+            val intent = Intent(this, AllCourseActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            finish()
+        }
+        binding.profileButton.setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+        binding.backButton.setOnClickListener{
+            finish()
+        }
     }
     private fun setupView(){
         val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
