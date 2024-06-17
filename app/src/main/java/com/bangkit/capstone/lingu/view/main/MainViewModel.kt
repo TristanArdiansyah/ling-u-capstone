@@ -35,6 +35,6 @@ class MainViewModel(private val repository: UserRepository, private val characte
 
     fun getAllCourse(): LiveData<List<Course>> = charactersRepository.getAllCourse()
 
-    fun getAllCourseAndCharacters(): LiveData<List<CourseAndCharacters>> = charactersRepository.getAllCourseAndCharacters()
+    fun getCourseAndCharactersById(courseId: Int): LiveData<CourseAndCharacters> = charactersRepository.getCourseAndCharactersById(courseId)
 
 }

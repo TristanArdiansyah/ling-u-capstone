@@ -20,6 +20,7 @@ import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
 import com.bangkit.capstone.lingu.view.profile.ProfileActivity
 import com.bangkit.capstone.lingu.view.ViewModelFactory
 import com.bangkit.capstone.lingu.view.canvas.CanvasActivity
+import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
 import com.bangkit.capstone.lingu.view.login.LoginActivity
 import com.bangkit.capstone.lingu.view.welcome.WelcomeActivity
 import com.google.firebase.Firebase
@@ -55,14 +56,13 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-            setupView(user.displayName)
+            setupView(user.displayName, user.lastCourse)
 
         }
-
         setupAction()
     }
 
-    private fun setupView(displayName: String) {
+    private fun setupView(displayName: String, lastCourse: String) {
         binding.greetingTextView.text = "Halo, " + displayName
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -72,6 +72,18 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
+        }
+
+        viewModel.getCourseAndCharactersById(lastCourse.toInt()).observe(this){ course ->
+            binding.courseNameTextView.text = course.course.name
+            binding.courseImageView.setImageResource(course.course.imageResId)
+            binding.courseCharacters.text = "${course.characters.size} characters"
+            binding.determinateBar.progress = 25
+            binding.continueButton.setOnClickListener{
+                val detailIntent = Intent(this@MainActivity, DetailCourseActivity::class.java)
+                detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.course.courseId)
+                startActivity(detailIntent)
+            }
         }
 
         supportActionBar?.hide()
