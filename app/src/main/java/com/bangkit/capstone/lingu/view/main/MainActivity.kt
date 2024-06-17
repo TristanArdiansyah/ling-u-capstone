@@ -60,8 +60,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setupAction()
-        playAnimation()
-
     }
 
     private fun setupView(displayName: String) {
@@ -108,22 +106,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-    }
-
-    private fun playAnimation() {
-        ObjectAnimator.ofFloat(binding.imageView, View.TRANSLATION_X, -30f, 30f).apply {
-            duration = 6000
-            repeatCount = ObjectAnimator.INFINITE
-            repeatMode = ObjectAnimator.REVERSE
-        }.start()
-
-        val name = ObjectAnimator.ofFloat(binding.nameTextView, View.ALPHA, 1f).setDuration(100)
-        val message = ObjectAnimator.ofFloat(binding.messageTextView, View.ALPHA, 1f).setDuration(100)
-
-        AnimatorSet().apply {
-            playSequentially(name, message)
-            startDelay = 100
-        }.start()
     }
 
     private fun searchModule(query: String) {
