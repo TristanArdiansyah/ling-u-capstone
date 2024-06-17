@@ -29,4 +29,6 @@
     <string name="continue_progress">Continue Progress</string>
     <string name="masukkan_nama_modul">Masukkan Nama Modul</string>
     <string name="halo_username">Halo, Username</string>
+    <string name="draw_on_white_canvas">Draw On White Canvas</string>
+    <string name="result">Result</string>
 </resources>

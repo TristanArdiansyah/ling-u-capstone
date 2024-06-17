@@ -7,4 +7,5 @@
     <color name="neutral_grey">#191C1B</color>
     <color name="navy">#2D3D4F</color>
     <color name="semi_transparent_black">#80000000</color>
+    <color name="transparent">#00000000</color> <!-- Fully transparent color -->
 </resources>

@@ -65,7 +65,7 @@ class CanvasActivity : AppCompatActivity() {
         val bitmap: Bitmap = binding.drawingView.getBitmap()
         val scaledBitmap = Bitmap.createScaledBitmap(bitmap, 50, 50, false)
         val byteBuffer = convertBitmapToByteBuffer(scaledBitmap)
-        saveBitmapToGallery(this@CanvasActivity, scaledBitmap, "canvas_${courseId}_${charId}" )
+        // saveBitmapToGallery(this@CanvasActivity, scaledBitmap, "canvas_${courseId}_${charId}" )
         if (courseId == 1){
             // Initialize the TensorFlow Lite model with the context
             val model = Locations.newInstance(this)
