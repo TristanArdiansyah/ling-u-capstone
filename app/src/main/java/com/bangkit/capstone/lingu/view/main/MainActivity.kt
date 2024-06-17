@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -44,7 +45,6 @@ class MainActivity : AppCompatActivity() {
             if (!user.isLogin) {
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-
             }
 
             auth = Firebase.auth
@@ -53,17 +53,15 @@ class MainActivity : AppCompatActivity() {
                 // Not signed in, launch the Login activity
                 startActivity(Intent(this, WelcomeActivity::class.java))
                 finish()
-
             }
 
             setupView(user.displayName, user.lastCourse)
-
         }
         setupAction()
     }
 
     private fun setupView(displayName: String, lastCourse: String) {
-        binding.greetingTextView.text = "Halo, " + displayName
+        binding.greetingTextView.text = "Halo, $displayName"
         @Suppress("DEPRECATION")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.insetsController?.hide(WindowInsets.Type.statusBars())
@@ -74,35 +72,39 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        viewModel.getCourseAndCharactersById(lastCourse.toInt()).observe(this){ course ->
-            binding.courseNameTextView.text = course.course.name
-            binding.courseImageView.setImageResource(course.course.imageResId)
-            binding.courseCharacters.text = "${course.characters.size} characters"
-            binding.determinateBar.progress = 25
-            binding.continueButton.setOnClickListener{
-                val detailIntent = Intent(this@MainActivity, DetailCourseActivity::class.java)
-                detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.course.courseId)
-                startActivity(detailIntent)
+        if (lastCourse.isNotEmpty()) {
+            try {
+                val lastCourseId = lastCourse.toInt()
+                viewModel.getCourseAndCharactersById(lastCourseId).observe(this) { course ->
+                    binding.courseNameTextView.text = course.course.name
+                    binding.courseImageView.setImageResource(course.course.imageResId)
+                    binding.courseCharacters.text = "${course.characters.size} characters"
+                    binding.determinateBar.progress = 25
+                    binding.continueButton.setOnClickListener {
+                        val detailIntent = Intent(this@MainActivity, DetailCourseActivity::class.java)
+                        detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.course.courseId)
+                        startActivity(detailIntent)
+                    }
+                }
+            } catch (e: NumberFormatException) {
+                Log.e("MainActivity", "NumberFormatException: Invalid input for integer conversion", e)
+                // Handle the exception, maybe show an error message or use a default value
             }
+        } else {
+            Log.e("MainActivity", "Empty string for lastCourse, cannot convert to integer")
+            // Handle the empty string case, maybe show an error message or use a default value
         }
 
         supportActionBar?.hide()
     }
 
     private fun setupAction() {
-
-//        binding. tesCanvas.setOnClickListener {
-//            val intent = Intent(this, CanvasActivity::class.java)
-//            startActivity(intent)
-//
-//        }
-
         binding.searchButtonNonFill.setOnClickListener {
             val intent = Intent(this, AllCourseActivity::class.java)
             startActivity(intent)
         }
 
-        binding.profileButton.setOnClickListener{
+        binding.profileButton.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
@@ -117,19 +119,17 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-
     }
 
     private fun searchModule(query: String) {
         if (query.isBlank()) {
-            //klo kosong ngapain
+            // If the query is blank, do nothing
             return
         }
-
+        // Implement search logic here
     }
 
     private fun signOut() {
-
         lifecycleScope.launch {
             val credentialManager = CredentialManager.create(this@MainActivity)
             auth.signOut()
@@ -137,8 +137,5 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()
         }
-
     }
-
-
 }
