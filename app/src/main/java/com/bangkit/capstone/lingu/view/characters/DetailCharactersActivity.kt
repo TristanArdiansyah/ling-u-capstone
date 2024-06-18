@@ -67,6 +67,11 @@ class DetailCharactersActivity : AppCompatActivity() {
 
             }
         }
+
+        binding.backButtonText.setOnClickListener{
+            finish()
+        }
+
         binding.backButton.setOnClickListener{
             finish()
         }
