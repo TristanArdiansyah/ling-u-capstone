@@ -14,7 +14,7 @@ import com.bangkit.capstone.lingu.databinding.ActivityCanvasBinding
 import com.bangkit.capstone.lingu.ml.Arithmetic
 import com.bangkit.capstone.lingu.ml.Bodyparts
 import com.bangkit.capstone.lingu.ml.Conversational
-import com.bangkit.capstone.lingu.ml.Locations
+import com.bangkit.capstone.lingu.ml.Location
 import com.bangkit.capstone.lingu.ml.Nature
 import com.bangkit.capstone.lingu.view.characters.DetailCharactersActivity
 import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
@@ -68,7 +68,7 @@ class CanvasActivity : AppCompatActivity() {
         // saveBitmapToGallery(this@CanvasActivity, scaledBitmap, "canvas_${courseId}_${charId}" )
         if (courseId == 1){
             // Initialize the TensorFlow Lite model with the context
-            val model = Locations.newInstance(this)
+            val model = Location.newInstance(this)
             val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 50, 50, 3), DataType.FLOAT32)
             inputFeature0.loadBuffer(byteBuffer)
 
