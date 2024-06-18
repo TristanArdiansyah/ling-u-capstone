@@ -54,6 +54,11 @@ class DetailCourseActivity : AppCompatActivity() {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
+
+        binding.backButtonText.setOnClickListener{
+            finish()
+        }
+
         binding.backButton.setOnClickListener{
             finish()
         }
