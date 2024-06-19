@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import androidx.room.Update
 
 @Dao
 interface CharactersDao {
@@ -38,4 +39,7 @@ interface CharactersDao {
     @Transaction
     @Query("SELECT * from characters WHERE characterId = :query")
     fun getCharacterDetailByid(query: Int): LiveData<Characters>
+
+    @Update
+    suspend fun updateCharacter(character: Characters)
 }

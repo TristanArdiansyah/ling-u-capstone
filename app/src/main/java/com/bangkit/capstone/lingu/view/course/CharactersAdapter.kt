@@ -1,6 +1,7 @@
 package com.bangkit.capstone.lingu.view.course
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bangkit.capstone.lingu.data.database.Characters
@@ -26,7 +27,12 @@ class CharactersAdapter(private val courses: List<Characters>, private val onCha
             binding.charactersNameTextView.text = charactersModel.pinyin
             binding.charactersDisplay.text = charactersModel.hanzi
             binding.charactersMeaningTextView.text = charactersModel.english
-            binding.root.setOnClickListener() { onCharacterClick(charactersModel) }
+            binding.root.setOnClickListener() {
+                onCharacterClick(charactersModel)
+            }
+            if (!charactersModel.isDone) {
+                binding.checkDone.visibility = View.INVISIBLE
+            }
         }
     }
 }

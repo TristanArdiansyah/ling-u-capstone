@@ -21,6 +21,10 @@ class CharactersRepository(private val charactersDao: CharactersDao) {
 
     fun getCharactersById(charId: Int): LiveData<Characters> = charactersDao.getCharacterDetailByid(charId)
 
+    suspend fun update(character: Characters) {
+        charactersDao.updateCharacter(character)
+    }
+
     suspend fun insertAllData() {
         charactersDao.insertCourse(InitialDataSource.getCourse())
         charactersDao.insertCharacters(InitialDataSource.getCharacters())

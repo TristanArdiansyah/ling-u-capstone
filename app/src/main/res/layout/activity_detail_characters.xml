@@ -123,6 +123,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal3"
         tools:text="shàng" />
+
+    <ImageView
+        android:id="@+id/checkDone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/baseline_check_circle_outline_24"
+        app:layout_constraintStart_toEndOf="@id/tv_characters_name"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal3"/>
+
+    <TextView
+        android:id="@+id/maxscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:text="@string/_100"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal3"/>
+    <TextView
+        android:id="@+id/bestScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/maxscore"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        tools:text="100"
+        app:layout_constraintTop_toBottomOf="@id/guidelineHorizontal3"/>
+
+
     <TextView
         android:id="@+id/meaning"
         android:layout_width="wrap_content"

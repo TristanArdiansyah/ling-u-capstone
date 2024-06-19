@@ -14,7 +14,10 @@ data class Characters(
     val example_english: String,
     val part_of_speech: String,
     val coId: Int,
-    val idOnCourse: Int
+    val idOnCourse: Int,
+    var isDone: Boolean,
+    var bestScore: Float = 0.0f,
+    val treshold: Float = 0.8f
 )
 
 @Entity
