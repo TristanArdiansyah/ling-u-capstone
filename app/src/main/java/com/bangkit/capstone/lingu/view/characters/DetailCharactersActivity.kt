@@ -2,6 +2,7 @@ package com.bangkit.capstone.lingu.view.characters
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -50,6 +51,10 @@ class DetailCharactersActivity : AppCompatActivity() {
             binding.tvHanziExample.text = characters.example_hanzi
             binding.tvPinyinExample.text = characters.example_pinyin
             binding.tvEnglishExample.text = characters.english
+            binding.bestScore.text = (characters.bestScore*100).toInt().toString()
+            if (!characters.isDone) {
+                binding.checkDone.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -57,11 +62,12 @@ class DetailCharactersActivity : AppCompatActivity() {
         val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
         var charId = intent.getIntExtra(EXTRA_CHARACTERS_ID, 0)
         viewModel.getCharacterById(charId).observe(this) { characters ->
-            val charIdOnCourse = characters.idOnCourse
+             val charIdOnCourse = characters.idOnCourse
             binding.canvasPage.setOnClickListener {
                 val intent = Intent(this, CanvasActivity::class.java)
                 intent.putExtra(CanvasActivity.EXTRA_COURSE_ID, courseId)
-                intent.putExtra(CanvasActivity.EXTRA_CHARACTERS_ID, charIdOnCourse)
+                intent.putExtra(CanvasActivity.EXTRA_CHARACTERS_ID_ON_COURSE, charIdOnCourse)
+                intent.putExtra(CanvasActivity.EXTRA_CHARACTERS_ID, characters.characterId)
                 intent.putExtra(CanvasActivity.HANZI_CHAR, characters.hanzi)
                 startActivity(intent)
 

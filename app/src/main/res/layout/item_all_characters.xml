@@ -66,5 +66,16 @@
 
             </LinearLayout>
         </FrameLayout>
+
+        <ImageView
+            android:id="@+id/checkDone"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/baseline_check_circle_outline_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
