@@ -27,7 +27,7 @@ class ViewModelFactory(private val repository: UserRepository, private val chara
                 CourseViewModel(repository, charactersRepository) as T
             }
             modelClass.isAssignableFrom(CharactersViewModel::class.java) -> {
-                CharactersViewModel(charactersRepository) as T
+                CharactersViewModel(repository, charactersRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }

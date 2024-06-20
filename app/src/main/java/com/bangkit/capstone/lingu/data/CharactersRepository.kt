@@ -19,8 +19,16 @@ class CharactersRepository(private val charactersDao: CharactersDao) {
     fun getAllCourseAndCharacters(): LiveData<List<CourseAndCharacters>> = charactersDao.getAllCourseAndCharacters()
     fun getCourseAndCharactersById(courseId: Int): LiveData<CourseAndCharacters> = charactersDao.getCourseDetailByid(courseId)
 
+    fun getCharactersAndCourseById(charactersId: Int): LiveData<CharactersAndCourse> = charactersDao.getCharacterAndCourseDetailById(charactersId)
     fun getCharactersById(charId: Int): LiveData<Characters> = charactersDao.getCharacterDetailByid(charId)
 
+    fun getCharactersByHanzi(hanzi: String): LiveData<Characters> = charactersDao.getCharacterDetailByHanzi(hanzi)
+
+    fun getCourseDetailBySlug(slug: String): LiveData<Course> = charactersDao.getCourseDetailBySlug(slug)
+
+    suspend fun updateCourse(course: Course) {
+        charactersDao.updateCourse(course)
+    }
     suspend fun update(character: Characters) {
         charactersDao.updateCharacter(character)
     }
@@ -28,6 +36,11 @@ class CharactersRepository(private val charactersDao: CharactersDao) {
     suspend fun insertAllData() {
         charactersDao.insertCourse(InitialDataSource.getCourse())
         charactersDao.insertCharacters(InitialDataSource.getCharacters())
+    }
+
+    suspend fun resetAllData() {
+        charactersDao.resetIsDoneOfCharactersForAll()
+        charactersDao.resetBestScoreOfCharacters()
     }
     companion object {
         @Volatile

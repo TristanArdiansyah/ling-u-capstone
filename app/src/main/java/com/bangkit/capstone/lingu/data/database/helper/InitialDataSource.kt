@@ -7,11 +7,11 @@ import com.bangkit.capstone.lingu.data.database.Characters
 object InitialDataSource {
     fun getCourse(): List<Course> {
         return listOf(
-            Course(1, "Location", R.drawable.location_image),
-            Course(2, "Body Parts", R.drawable.body_image),
-            Course(3, "Arithmetic", R.drawable.arithmetic_image),
-            Course(4, "Nature", R.drawable.nature_image),
-            Course(5, "Conversational", R.drawable.conversation_image),
+            Course(1, "Location", R.drawable.location_image, "location"),
+            Course(2, "Body Parts", R.drawable.body_image,"bodypart"),
+            Course(3, "Arithmetic", R.drawable.arithmetic_image,"arithmetic" ),
+            Course(4, "Nature", R.drawable.nature_image,"nature"),
+            Course(5, "Conversational", R.drawable.conversation_image, "conversational"),
         )
     }
     fun getCharacters(): List<Characters> {

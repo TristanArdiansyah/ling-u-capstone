@@ -1,6 +1,6 @@
 package com.bangkit.capstone.lingu.data.register
 
-import com.bangkit.capstone.lingu.data.Data
+import com.bangkit.capstone.lingu.data.login.Data
 
 data class RegisterResponse(
     val status: String,

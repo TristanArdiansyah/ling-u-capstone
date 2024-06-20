@@ -16,6 +16,8 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
+import com.bangkit.capstone.lingu.data.RetrofitClient
+import com.bangkit.capstone.lingu.data.progress.ProgressResponse
 import com.bangkit.capstone.lingu.view.course.AllCourseActivity
 import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
 import com.bangkit.capstone.lingu.view.profile.ProfileActivity
@@ -28,6 +30,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -58,6 +61,8 @@ class MainActivity : AppCompatActivity() {
             setupView(user.displayName, user.lastCourse)
         }
         setupAction()
+        getSyncData()
+
     }
 
     private fun setupView(displayName: String, lastCourse: String) {
@@ -79,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     binding.courseNameTextView.text = course.course.name
                     binding.courseImageView.setImageResource(course.course.imageResId)
                     binding.courseCharacters.text = "${course.characters.size} characters"
-                    binding.determinateBar.progress = 25
+                    binding.determinateBar.progress = course.course.percentCompleted.toInt()
                     binding.continueButton.setOnClickListener {
                         val detailIntent = Intent(this@MainActivity, DetailCourseActivity::class.java)
                         detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.course.courseId)
@@ -129,6 +134,47 @@ class MainActivity : AppCompatActivity() {
         // Implement search logic here
     }
 
+    private fun getSyncData() {
+        viewModel.getSession().observe(this@MainActivity){user->
+            val token = user.token
+            lifecycleScope.launch {
+                try {
+                    val response = RetrofitClient.instance.progress(token)
+                    applySyncData(response)
+                } catch (e: HttpException) {
+                    signOut()
+                    finish()
+                }
+
+            }
+        }
+
+    }
+    private fun applySyncData(progressResponse: ProgressResponse){
+        for (category in  progressResponse.data) {
+            if (category.characters != null){
+                for (progressCharacter in category.characters) {
+                    viewModel.getCharactersDetailByHanzi(progressCharacter!!.character).observe(this){character->
+                        lifecycleScope.launch {
+                            character.bestScore = progressCharacter.confidenceScore.toFloat()
+                            if (character.bestScore>=0.9f) {
+                                character.isDone = true
+                            }
+                            viewModel.update(character)
+                        }
+                    }
+                }
+            }
+
+            viewModel.getCourseBySlug(category.category).observe(this) {course->
+                lifecycleScope.launch {
+                    course.percentCompleted = category.percentCompleted
+                    viewModel.update(course)
+                }
+            }
+        }
+    }
+
     private fun signOut() {
         lifecycleScope.launch {
             val credentialManager = CredentialManager.create(this@MainActivity)
@@ -136,6 +182,8 @@ class MainActivity : AppCompatActivity() {
             credentialManager.clearCredentialState(ClearCredentialStateRequest())
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()
+            viewModel.resetData()
         }
+        viewModel.logout()
     }
 }
