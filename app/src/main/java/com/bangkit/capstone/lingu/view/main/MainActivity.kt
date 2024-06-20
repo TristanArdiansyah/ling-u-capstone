@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     binding.courseNameTextView.text = course.course.name
                     binding.courseImageView.setImageResource(course.course.imageResId)
                     binding.courseCharacters.text = "${course.characters.size} characters"
-                    binding.determinateBar.progress = 25
+                    binding.determinateBar.progress = course.course.percentCompleted.toInt()
                     binding.continueButton.setOnClickListener {
                         val detailIntent = Intent(this@MainActivity, DetailCourseActivity::class.java)
                         detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.course.courseId)
@@ -163,6 +163,13 @@ class MainActivity : AppCompatActivity() {
                             viewModel.update(character)
                         }
                     }
+                }
+            }
+
+            viewModel.getCourseBySlug(category.category).observe(this) {course->
+                lifecycleScope.launch {
+                    course.percentCompleted = category.percentCompleted
+                    viewModel.update(course)
                 }
             }
         }

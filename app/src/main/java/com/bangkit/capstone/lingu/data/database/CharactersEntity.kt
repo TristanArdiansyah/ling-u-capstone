@@ -26,7 +26,8 @@ data class Course(
     val courseId: Int,
     val name: String,
     val imageResId: Int,
-    val slug: String
+    val slug: String,
+    var percentCompleted: Double = 0.0
 )
 
 data class CharactersAndCourse(
