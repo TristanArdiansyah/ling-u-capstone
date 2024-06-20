@@ -32,4 +32,5 @@
     <string name="draw_on_white_canvas">Draw On White Canvas</string>
     <string name="result">Result</string>
     <string name="_100">/100</string>
+    <string name="canvas">Canvas</string>
 </resources>

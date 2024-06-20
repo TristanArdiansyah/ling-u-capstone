@@ -28,7 +28,7 @@
         android:layout_marginEnd="32dp"
         android:alpha="0"
         android:text="@string/title_signup_page"
-        android:textColor="@color/black"
+        
         android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:alpha="0"
         android:text="@string/name"
-        android:textColor="@color/black"
+        
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTextView"
         tools:alpha="100" />
@@ -84,7 +84,7 @@
         android:layout_marginTop="16dp"
         android:alpha="0"
         android:text="@string/username"
-        android:textColor="@color/black"
+        
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameEditTextLayout"
         tools:alpha="100" />
@@ -123,7 +123,7 @@
         android:layout_marginTop="8dp"
         android:alpha="0"
         android:text="@string/password"
-        android:textColor="@color/black"
+        
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailEditTextLayout"
         tools:alpha="100" />
@@ -163,7 +163,7 @@
         android:layout_marginTop="8dp"
         android:alpha="0"
         android:text="@string/confirm_password"
-        android:textColor="@color/black"
+        
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditTextLayout"
         tools:alpha="100" />
@@ -204,7 +204,8 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:alpha="0"
-        android:backgroundTint="@color/neutral_grey"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/primary_yellow"
         android:text="@string/signup"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -218,7 +219,7 @@
         android:layout_marginTop="32dp"
         android:alpha="0"
         android:text="@string/already_have_account"
-        android:textColor="@color/black"
+        
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/signupButton"
