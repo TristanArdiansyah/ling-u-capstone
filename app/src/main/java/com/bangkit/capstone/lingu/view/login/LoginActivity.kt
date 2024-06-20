@@ -57,9 +57,6 @@ class LoginActivity : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-        binding.signInButton.visibility = View.GONE
-        binding.frameLayout.visibility = View.GONE
-
         setupView()
         setupAction()
         playAnimation()
@@ -84,10 +81,6 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.emailEditText.text.toString()
             val password = binding.passwordEditText.text.toString()
             loginWithEmailPassword(email, password)
-        }
-
-        binding.signInButton.setOnClickListener {
-            signInWithGoogle()
         }
     }
 
@@ -203,7 +196,6 @@ class LoginActivity : AppCompatActivity() {
         val passwordEditTextLayout =
             ObjectAnimator.ofFloat(binding.passwordEditTextLayout, View.ALPHA, 1f).setDuration(100)
         val login = ObjectAnimator.ofFloat(binding.loginButton, View.ALPHA, 1f).setDuration(100)
-        val loginGoogle = ObjectAnimator.ofFloat(binding.signInButton, View.ALPHA, 1f).setDuration(100)
 
         AnimatorSet().apply {
             playSequentially(
@@ -213,15 +205,12 @@ class LoginActivity : AppCompatActivity() {
                 passwordTextView,
                 passwordEditTextLayout,
                 login,
-                loginGoogle,
                 message
             )
             startDelay = 100
         }.start()
 
         Handler().postDelayed({
-            binding.signInButton.visibility = View.VISIBLE
-            binding.frameLayout.visibility = View.VISIBLE
         }, 700) // Delay in milliseconds
     }
 
