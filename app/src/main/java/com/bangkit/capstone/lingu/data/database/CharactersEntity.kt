@@ -17,7 +17,7 @@ data class Characters(
     val idOnCourse: Int,
     var isDone: Boolean,
     var bestScore: Float = 0.0f,
-    var treshold: Float = 0.8f
+    val treshold: Float = 1f
 )
 
 @Entity

@@ -106,7 +106,6 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result ${charIdOnCourse} Percentage: ${outputArray[charIdOnCourse]*100}% Max: $maxIndex"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
             finalScore = outputArray[charIdOnCourse]
@@ -136,7 +135,6 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result ${charIdOnCourse} Percentage: ${outputArray[charIdOnCourse]} "
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
             finalScore = outputArray[charIdOnCourse]
@@ -167,7 +165,6 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result Percentage: ${outputArray[charIdOnCourse]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
             finalScore = outputArray[charIdOnCourse]
@@ -198,7 +195,6 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result Percentage: ${outputArray[charIdOnCourse]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
             finalScore = outputArray[charIdOnCourse]
@@ -229,7 +225,6 @@ class CanvasActivity : AppCompatActivity() {
 
             // Update the result TextView on the main thread
             runOnUiThread {
-                binding.result.text = "Result Percentage: ${outputArray[charIdOnCourse]}"
                 Toast.makeText(this, "Drawing saved!", Toast.LENGTH_SHORT).show()
             }
             finalScore = outputArray[charIdOnCourse]
@@ -277,7 +272,7 @@ class CanvasActivity : AppCompatActivity() {
                 characters.bestScore = scoreRescaled
             }
         }
-        if (characters.bestScore>=0.9f){
+        if (characters.bestScore>=0.85f){
             characters.isDone = true
         }
         return characters
