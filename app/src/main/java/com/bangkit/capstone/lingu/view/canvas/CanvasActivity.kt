@@ -246,13 +246,15 @@ class CanvasActivity : AppCompatActivity() {
             var hanzi = ""
             var bestscore = 0.0f
             viewModel.getCharactersAndCourseById(charId).observe(this) { characters ->
-                runBlocking {
-                    coursename = characters.course?.slug ?: ""
-                    hanzi = characters.characters.hanzi
-                    bestscore = characters.characters.bestScore
-                    val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
-                    RetrofitClient.instance.predict(token, requestBody)
-                    finish()
+                if (characters.characters.isDone){
+                    runBlocking {
+                        coursename = characters.course?.slug ?: ""
+                        hanzi = characters.characters.hanzi
+                        bestscore = characters.characters.bestScore
+                        val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
+                        RetrofitClient.instance.predict(token, requestBody)
+                        finish()
+                    }
                 }
             }
         }

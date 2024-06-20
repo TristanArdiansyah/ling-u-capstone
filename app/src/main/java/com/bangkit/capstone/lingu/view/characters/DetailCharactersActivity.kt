@@ -50,7 +50,7 @@ class DetailCharactersActivity : AppCompatActivity() {
             binding.tvEnglishMeaning.text = characters.english
             binding.tvHanziExample.text = characters.example_hanzi
             binding.tvPinyinExample.text = characters.example_pinyin
-            binding.tvEnglishExample.text = characters.english
+            binding.tvEnglishExample.text = characters.example_english
             binding.bestScore.text = (characters.bestScore*100).toInt().toString()
             if (!characters.isDone) {
                 binding.checkDone.visibility = View.INVISIBLE

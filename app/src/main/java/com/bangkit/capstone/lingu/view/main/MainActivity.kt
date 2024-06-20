@@ -30,6 +30,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class MainActivity : AppCompatActivity() {
     private val viewModel by viewModels<MainViewModel> {
@@ -61,6 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
         setupAction()
         getSyncData()
+
     }
 
     private fun setupView(displayName: String, lastCourse: String) {
@@ -136,8 +138,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.getSession().observe(this@MainActivity){user->
             val token = user.token
             lifecycleScope.launch {
-                val response = RetrofitClient.instance.progress(token)
-                applySyncData(response)
+                try {
+                    val response = RetrofitClient.instance.progress(token)
+                    applySyncData(response)
+                } catch (e: HttpException) {
+                    signOut()
+                    finish()
+                }
+
             }
         }
 
@@ -167,6 +175,8 @@ class MainActivity : AppCompatActivity() {
             credentialManager.clearCredentialState(ClearCredentialStateRequest())
             startActivity(Intent(this@MainActivity, LoginActivity::class.java))
             finish()
+            viewModel.resetData()
         }
+        viewModel.logout()
     }
 }
