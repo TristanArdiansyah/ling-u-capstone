@@ -10,7 +10,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bangkit.capstone.lingu.data.RetrofitClient
 import com.bangkit.capstone.lingu.data.database.Characters
@@ -43,6 +47,9 @@ class CanvasActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityCanvasBinding
+    private var dialogShown = false
+    private var finalScore = 0.0f
+
     companion object {
         const val EXTRA_COURSE_ID = "EXTRA_COURSE_ID"
         const val EXTRA_CHARACTERS_ID = "EXTRA_CHARACTERS_ID"
@@ -75,7 +82,6 @@ class CanvasActivity : AppCompatActivity() {
     }
 
     private fun saveDrawing() {
-        var finalScore = 0.0f
         val courseId = intent.getIntExtra(EXTRA_COURSE_ID, 0)
         val charIdOnCourse = intent.getIntExtra(CanvasActivity.EXTRA_CHARACTERS_ID_ON_COURSE, 0)
         val bitmap: Bitmap = binding.drawingView.getBitmap()
@@ -231,6 +237,7 @@ class CanvasActivity : AppCompatActivity() {
 
         }
 
+
         viewModel.getSession().observe(this) { user ->
             val token = user.token
             val charId = intent.getIntExtra(CanvasActivity.EXTRA_CHARACTERS_ID, 0)
@@ -242,25 +249,34 @@ class CanvasActivity : AppCompatActivity() {
                 }
             }
 
-            var coursename = ""
-            var hanzi = ""
-            var bestscore = 0.0f
-            viewModel.getCharactersAndCourseById(charId).observe(this) { characters ->
-                if (characters.characters.isDone){
+            viewModel.getCharactersAndCourseById(charId).observe(this@CanvasActivity) { characters ->
+                if (characters.characters.isDone && !dialogShown) { // Memeriksa apakah karakter sudah selesai dan dialog belum ditampilkan
                     runBlocking {
-                        coursename = characters.course?.slug ?: ""
-                        hanzi = characters.characters.hanzi
-                        bestscore = characters.characters.bestScore
+                        val coursename = characters.course?.slug ?: ""
+                        val hanzi = characters.characters.hanzi
+                        val bestscore = characters.characters.bestScore
                         val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
                         RetrofitClient.instance.predict(token, requestBody)
-                        finish()
+
+                        showDialog(finalScore)
+                        dialogShown = true
+                        viewModel.getCharactersAndCourseById(charId).removeObservers(this@CanvasActivity)
                     }
                 }
+
+                if (!dialogShown){
+                    showDialog(finalScore)
+                    dialogShown = true
+                    viewModel.getCharactersAndCourseById(charId).removeObservers(this@CanvasActivity)
+                }
+
             }
         }
 
+        dialogShown = false
+
     }
-    
+
     private fun checkIsCharacterDone(characters: Characters, score: Float): Characters{
         // Rescale score to treshold
         if (score > characters.treshold){
@@ -298,30 +314,22 @@ class CanvasActivity : AppCompatActivity() {
             }
         }
         return byteBuffer
-    }private fun saveBitmapToGallery(context: Context, bitmap: Bitmap, fileName: String) {
-        val fos: OutputStream?
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            val resolver = context.contentResolver
-            val contentValues = ContentValues().apply {
-                put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName.jpg")
-                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
-            }
-
-            val imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
-            fos = resolver.openOutputStream(imageUri!!)
-        } else {
-            val imagesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-            val image = File(imagesDir, "$fileName.jpg")
-            fos = FileOutputStream(image)
-        }
-
-        fos?.use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
-            Toast.makeText(context, "Image saved to gallery", Toast.LENGTH_SHORT).show()
-        }
     }
 
+    private fun showDialog(finalScore: Float) {
+        AlertDialog.Builder(this@CanvasActivity).apply {
+            setTitle("Result")
+            setMessage(finalScore.toString())
+            setPositiveButton("Finish") { _, _ ->
+                finish()
+            }
+            setNegativeButton("Try Again") { _, _ ->
+                //Clear Canvas
+                binding.drawingView.clear()
+            }
+            create()
+            show()
+        }
+    }
 
 }
