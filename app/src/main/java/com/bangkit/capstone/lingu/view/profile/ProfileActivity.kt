@@ -65,6 +65,7 @@ class ProfileActivity : AppCompatActivity() {
                 credentialManager.clearCredentialState(ClearCredentialStateRequest())
                 startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
                 finish()
+                viewModel.resetData()
             }
             viewModel.logout()
         }

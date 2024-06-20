@@ -16,6 +16,8 @@ import androidx.core.splashscreen.SplashScreen
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.lifecycle.lifecycleScope
+import com.bangkit.capstone.lingu.data.RetrofitClient
+import com.bangkit.capstone.lingu.data.progress.ProgressResponse
 import com.bangkit.capstone.lingu.view.course.AllCourseActivity
 import com.bangkit.capstone.lingu.databinding.ActivityMainBinding
 import com.bangkit.capstone.lingu.view.profile.ProfileActivity
@@ -58,6 +60,7 @@ class MainActivity : AppCompatActivity() {
             setupView(user.displayName, user.lastCourse)
         }
         setupAction()
+        getSyncData()
     }
 
     private fun setupView(displayName: String, lastCourse: String) {
@@ -127,6 +130,34 @@ class MainActivity : AppCompatActivity() {
             return
         }
         // Implement search logic here
+    }
+
+    private fun getSyncData() {
+        viewModel.getSession().observe(this@MainActivity){user->
+            val token = user.token
+            lifecycleScope.launch {
+                val response = RetrofitClient.instance.progress(token)
+                applySyncData(response)
+            }
+        }
+
+    }
+    private fun applySyncData(progressResponse: ProgressResponse){
+        for (category in  progressResponse.data) {
+            if (category.characters != null){
+                for (progressCharacter in category.characters) {
+                    viewModel.getCharactersDetailByHanzi(progressCharacter!!.character).observe(this){character->
+                        lifecycleScope.launch {
+                            character.bestScore = progressCharacter.confidenceScore.toFloat()
+                            if (character.bestScore>=0.9f) {
+                                character.isDone = true
+                            }
+                            viewModel.update(character)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private fun signOut() {

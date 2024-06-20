@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
-object RetrofitClient {
+object  RetrofitClient {
     private const val BASE_URL = "https://lingu-api-jgfucozazq-et.a.run.app/"
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {

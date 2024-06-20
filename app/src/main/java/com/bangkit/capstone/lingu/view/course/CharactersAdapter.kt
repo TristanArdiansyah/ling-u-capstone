@@ -30,7 +30,9 @@ class CharactersAdapter(private val courses: List<Characters>, private val onCha
             binding.root.setOnClickListener() {
                 onCharacterClick(charactersModel)
             }
-            if (!charactersModel.isDone) {
+            if (charactersModel.isDone) {
+                binding.checkDone.visibility = View.VISIBLE
+            } else {
                 binding.checkDone.visibility = View.INVISIBLE
             }
         }

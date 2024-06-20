@@ -37,4 +37,11 @@ class MainViewModel(private val repository: UserRepository, private val characte
 
     fun getCourseAndCharactersById(courseId: Int): LiveData<CourseAndCharacters> = charactersRepository.getCourseAndCharactersById(courseId)
 
+    suspend fun update(characters: Characters) {
+        charactersRepository.update(characters)
+    }
+    fun getCharactersDetailByHanzi(hanzi: String): LiveData<Characters> = charactersRepository.getCharactersByHanzi(hanzi)
+
+    suspend fun resetData() = charactersRepository.resetAllData()
+
 }

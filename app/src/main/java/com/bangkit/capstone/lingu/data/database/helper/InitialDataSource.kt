@@ -7,11 +7,11 @@ import com.bangkit.capstone.lingu.data.database.Characters
 object InitialDataSource {
     fun getCourse(): List<Course> {
         return listOf(
-            Course(1, "Location", R.drawable.location_image),
-            Course(2, "Body Parts", R.drawable.body_image),
-            Course(3, "Arithmetic", R.drawable.arithmetic_image),
-            Course(4, "Nature", R.drawable.nature_image),
-            Course(5, "Conversational", R.drawable.conversation_image),
+            Course(1, "Location", R.drawable.location_image, "location"),
+            Course(2, "Body Parts", R.drawable.body_image,"bodypart"),
+            Course(3, "Arithmetic", R.drawable.arithmetic_image,"arithmetic" ),
+            Course(4, "Nature", R.drawable.nature_image,"nature"),
+            Course(5, "Conversational", R.drawable.conversation_image, "conversational"),
         )
     }
     fun getCharacters(): List<Characters> {
@@ -37,7 +37,7 @@ object InitialDataSource {
             Characters(12, "西", "xī", "west", "太陽從西方落下。", "Tàiyáng cóng xīfāng luòxià.", "The sun sets in the west.", "null", 1, 18, false),
             Characters(15, "里", "lǐ", "neighborhood, village", "我住在這個里已經五年了。", "Wǒ zhù zài zhège lǐ yǐjīng wǔ niánle.", "I have lived in this neighborhood for five years.", "null", 1, 19, false),
             Characters(17, "門", "mén", "door, gate", "請把門關上。", "Qǐng bǎ mén guān shàng.", "Please close the door.", "null", 1 , 20, false),
-            Characters(10, "間", "jiān", "between, among, room", "我的房間在二樓。", "Wǒ de fángjiān zài èr lóu.", "My room is on the second floor.", "null", 1, 21, false),
+            Characters(10, "間", "jiān", "between, among, room", "我的房間在二樓。", "Wǒ de fángjiān zài èr lóu.", "My room is on the second floor.", "null", 1, 21, false, ),
 
             Characters(23, "手", "shǒu", "hand", "我的手很小。", "Wǒ de shǒu hěn xiǎo.", "My hands are small.", "null", 2, 0, false),
             Characters(24, "腳", "jiǎo", "foot", "我的腳很痛。", "Wǒ de jiǎo hěn tòng.", "My feet hurt.", "null", 2, 1, false),

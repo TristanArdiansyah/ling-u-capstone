@@ -17,7 +17,7 @@ data class Characters(
     val idOnCourse: Int,
     var isDone: Boolean,
     var bestScore: Float = 0.0f,
-    val treshold: Float = 0.8f
+    var treshold: Float = 0.8f
 )
 
 @Entity
@@ -25,7 +25,8 @@ data class Course(
     @PrimaryKey
     val courseId: Int,
     val name: String,
-    val imageResId: Int
+    val imageResId: Int,
+    val slug: String
 )
 
 data class CharactersAndCourse(

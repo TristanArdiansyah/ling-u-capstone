@@ -100,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
                 if (response.status == "success") {
                     // Handle success
                     Log.d(TAG, "loginWithEmail:success")
-                    val userModel = UserModel(uid = response.data.uid, displayName = response.data.fullName, email = response.data.email, token = "", isLogin = true, lastCourse = "1")
+                    val userModel = UserModel(uid = response.data.uid, displayName = response.data.fullName, email = response.data.email, token = response.data.token, isLogin = true, lastCourse = "1")
                     viewModel.saveSession(userModel)
                     val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)

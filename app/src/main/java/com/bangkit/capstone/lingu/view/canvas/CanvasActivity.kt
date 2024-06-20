@@ -12,7 +12,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bangkit.capstone.lingu.data.RetrofitClient
 import com.bangkit.capstone.lingu.data.database.Characters
+import com.bangkit.capstone.lingu.data.database.CharactersAndCourse
+import com.bangkit.capstone.lingu.data.progress.ProgressUpdateRequest
 import com.bangkit.capstone.lingu.databinding.ActivityCanvasBinding
 import com.bangkit.capstone.lingu.ml.Arithmetic
 import com.bangkit.capstone.lingu.ml.Bodyparts
@@ -24,6 +27,7 @@ import com.bangkit.capstone.lingu.view.characters.CharactersViewModel
 import com.bangkit.capstone.lingu.view.characters.DetailCharactersActivity
 import com.bangkit.capstone.lingu.view.course.DetailCourseActivity
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import java.io.File
@@ -231,26 +235,47 @@ class CanvasActivity : AppCompatActivity() {
             finalScore = outputArray[charIdOnCourse]
 
         }
-        val charId = intent.getIntExtra(CanvasActivity.EXTRA_CHARACTERS_ID, 0)
 
-        viewModel.getCharacterById(charId).observe(this@CanvasActivity){characters ->
-            val charactersUpdated = checkIsCharacterDone(characters, finalScore)
-            lifecycleScope.launch {
-                charactersUpdated?.let { viewModel.update(it) }
+        viewModel.getSession().observe(this) { user ->
+            val token = user.token
+            val charId = intent.getIntExtra(CanvasActivity.EXTRA_CHARACTERS_ID, 0)
+
+            viewModel.getCharacterById(charId).observe(this@CanvasActivity) { characters ->
+                val charactersUpdated = checkIsCharacterDone(characters, finalScore)
+                lifecycleScope.launch {
+                    viewModel.update(charactersUpdated)
+                }
+            }
+
+            var coursename = ""
+            var hanzi = ""
+            var bestscore = 0.0f
+            viewModel.getCharactersAndCourseById(charId).observe(this) { characters ->
+                runBlocking {
+                    coursename = characters.course?.slug ?: ""
+                    hanzi = characters.characters.hanzi
+                    bestscore = characters.characters.bestScore
+                    val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
+                    RetrofitClient.instance.predict(token, requestBody)
+                    finish()
+                }
             }
         }
-        // Navigate to MainActivity if needed
-        // val intent = Intent(this, MainActivity::class.java)
-        // startActivity(intent)
+
     }
     
     private fun checkIsCharacterDone(characters: Characters, score: Float): Characters{
         // Rescale score to treshold
         if (score > characters.treshold){
+            // score -> 100
             characters.bestScore = 1.0f
         } else {
+            // 0.3/0.4 = 0.75f -> 75
             val scoreRescaled = score/characters.treshold
-            characters.bestScore = scoreRescaled
+
+            if (scoreRescaled > characters.bestScore){
+                characters.bestScore = scoreRescaled
+            }
         }
         if (characters.bestScore>=0.9f){
             characters.isDone = true
