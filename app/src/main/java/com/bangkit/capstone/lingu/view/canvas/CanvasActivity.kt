@@ -244,32 +244,26 @@ class CanvasActivity : AppCompatActivity() {
 
             viewModel.getCharacterById(charId).observe(this@CanvasActivity) { characters ->
                 val charactersUpdated = checkIsCharacterDone(characters, finalScore)
-                lifecycleScope.launch {
-                    viewModel.update(charactersUpdated)
-                }
-            }
-
-            viewModel.getCharactersAndCourseById(charId).observe(this@CanvasActivity) { characters ->
-                if (characters.characters.isDone && !dialogShown) { // Memeriksa apakah karakter sudah selesai dan dialog belum ditampilkan
-                    runBlocking {
-                        val coursename = characters.course?.slug ?: ""
-                        val hanzi = characters.characters.hanzi
-                        val bestscore = characters.characters.bestScore
-                        val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
-                        RetrofitClient.instance.predict(token, requestBody)
-
-                        showDialog(finalScore)
+                if (!dialogShown) {
+                    lifecycleScope.launch {
+                        viewModel.update(charactersUpdated)
+                        showDialog(finalScore/charactersUpdated.treshold)
                         dialogShown = true
-                        viewModel.getCharactersAndCourseById(charId).removeObservers(this@CanvasActivity)
                     }
                 }
 
-                if (!dialogShown){
-                    showDialog(finalScore)
-                    dialogShown = true
+            }
+
+            viewModel.getCharactersAndCourseById(charId).observe(this@CanvasActivity) { characters ->
+                runBlocking {
+                    val coursename = characters.course?.slug ?: ""
+                    val hanzi = characters.characters.hanzi
+                    val bestscore = characters.characters.bestScore
+                    val requestBody = ProgressUpdateRequest(coursename, hanzi, bestscore.toDouble())
+                    RetrofitClient.instance.predict(token, requestBody)
+
                     viewModel.getCharactersAndCourseById(charId).removeObservers(this@CanvasActivity)
                 }
-
             }
         }
 
@@ -317,9 +311,12 @@ class CanvasActivity : AppCompatActivity() {
     }
 
     private fun showDialog(finalScore: Float) {
+        var showScore = (finalScore*100).toInt()
+        if (showScore>100)
+            showScore = 100
         AlertDialog.Builder(this@CanvasActivity).apply {
             setTitle("Result")
-            setMessage(finalScore.toString())
+            setMessage("${showScore}/100")
             setPositiveButton("Finish") { _, _ ->
                 finish()
             }

@@ -53,6 +53,7 @@ class AllCourseActivity : AppCompatActivity() {
                 // Handle enroll button click
                 // Example: Toast.makeText(this, "Enrolled in ${course.name}", Toast.LENGTH_SHORT).show()
                 val detailIntent = Intent(this@AllCourseActivity, DetailCourseActivity::class.java)
+
                 detailIntent.putExtra(DetailCourseActivity.EXTRA_COURSE_ID, course.courseId)
                 startActivity(detailIntent)
             }
